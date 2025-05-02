@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Carta Para Você 💌</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #fff0f5;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .envelope-container {
+      position: relative;
+      width: 260px;
+      height: 160px;
+      perspective: 1000px;
+    }
+
+    .envelope {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background: #f08080;
+      border-radius: 8px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .envelope:hover {
+      transform: scale(1.03);
+    }
+
+    .top-flap {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 50%;
+      background: #ff9999;
+      transform-origin: top center;
+      transition: transform 0.8s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.4s ease;
+      clip-path: polygon(0 0, 100% 0, 50% 100%);
+      z-index: 3;
+      box-shadow: inset 0px -2px 4px rgba(0,0,0,0.2);
+    }
+
+    .envelope:hover .top-flap {
+      transform: rotateX(-15deg);
+      box-shadow: inset 0px -4px 6px rgba(0,0,0,0.25);
+    }
+
+    .envelope.open .top-flap {
+      transform: rotateX(-140deg);
+      box-shadow: none;
+    }
+
+    .hint {
+      position: absolute;
+      bottom: -30px;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #b22222;
+      animation: pulse 2s infinite;
+      z-index: 2;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .letter {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 90%;
+      background: white;
+      padding: 20px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      border-radius: 8px;
+      opacity: 0;
+      transition: top 2s ease, opacity 2s ease;
+      z-index: 1;
+    }
+
+    .envelope.open + .letter {
+      top: -180px;
+      opacity: 1;
+    }
+
+    .letter p {
+      margin: 0;
+      font-size: 16px;
+      color: #444;
+      font-family: 'Georgia', serif;
+      text-align: center;
+    }
+
+    /* Efeito de neve caindo */
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      font-size: 16px; /* Neve menor */
+      color: #f0f0f0;
+      pointer-events: none;
+      animation: fall 6s linear infinite; /* Neve mais rápida */
+    }
+
+    @keyframes fall {
+      0% {
+        top: -10px;
+      }
+      100% {
+        top: 100vh;
+      }
+    }
+
+    /* Gerando diferentes posições e tempos de animação para as flocos de neve */
+    .snowflake:nth-child(1) { left: 5%; animation-duration: 5s; animation-delay: 0s; }
+    .snowflake:nth-child(2) { left: 10%; animation-duration: 6s; animation-delay: 1s; }
+    .snowflake:nth-child(3) { left: 15%; animation-duration: 7s; animation-delay: 2s; }
+    .snowflake:nth-child(4) { left: 20%; animation-duration: 5.5s; animation-delay: 3s; }
+    .snowflake:nth-child(5) { left: 25%; animation-duration: 6s; animation-delay: 1s; }
+    .snowflake:nth-child(6) { left: 30%; animation-duration: 5.8s; animation-delay: 4s; }
+    .snowflake:nth-child(7) { left: 35%; animation-duration: 6.5s; animation-delay: 2s; }
+    .snowflake:nth-child(8) { left: 40%; animation-duration: 5.3s; animation-delay: 5s; }
+    .snowflake:nth-child(9) { left: 45%; animation-duration: 6s; animation-delay: 6s; }
+    .snowflake:nth-child(10) { left: 50%; animation-duration: 7s; animation-delay: 7s; }
+    .snowflake:nth-child(11) { left: 55%; animation-duration: 6.5s; animation-delay: 8s; }
+    .snowflake:nth-child(12) { left: 60%; animation-duration: 6s; animation-delay: 9s; }
+    .snowflake:nth-child(13) { left: 65%; animation-duration: 7.5s; animation-delay: 10s; }
+    .snowflake:nth-child(14) { left: 70%; animation-duration: 5.8s; animation-delay: 11s; }
+    .snowflake:nth-child(15) { left: 75%; animation-duration: 6.2s; animation-delay: 12s; }
+
+    /* Estilo da mensagem que aparece ao passar o mouse */
+    .tooltip {
+      position: absolute;
+      bottom: 70px;
+      width: 100%;
+      text-align: center;
+      font-size: 16px;
+      color: #b22222;
+      display: none;
+      z-index: 4;
+    }
+
+    .envelope:hover .tooltip {
+      display: block;
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Efeitos de flocos de neve -->
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+<div class="snowflake">❄️</div>
+
+<div class="envelope-container" onclick="abrirCarta()">
+  <div class="envelope" id="envelope">
+    <div class="top-flap"></div>
+    <div class="hint">Clique para abrir</div>
+    <!-- Mensagem que aparece ao passar o mouse -->
+    <div class="tooltip">NoOoOoOo la politziaa</div>
+  </div>
+
+  <div class="letter" id="carta">
+    <p>
+      Oi,<br><br>
+
+      Imagino que essa fase da faculdade esteja puxada.<br>
+      É muita coisa pra lidar ao mesmo tempo, né?<br><br>
+
+      Só queria te dizer que estou torcendo por ti.<br>
+      Tu tens te esforçado tanto, mesmo nos dias mais difíceis — e isso mostra uma força bonita de ver.<br><br>
+
+      Espero que, de alguma forma, essa mensagem te lembre que tu não tá sozinha nessa.<br><br>
+
+      Com carinho,<br><br>
+      Euzinho 💌
+    </p>
+  </div>
+</div>
+
+<script>
+  function abrirCarta() {
+    const envelope = document.getElementById('envelope');
+    envelope.classList.toggle('open');
+  }
+</script>
+
+</body>
+</html>
